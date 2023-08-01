@@ -7,7 +7,7 @@ public:
 
         int a = nums1.size(), b = nums2.size(), ans = 0;
 
-        for(int i=a-1;i>=0;i--){//dp[i][j] denotes max length of string index i to end of nums1 and similarly for nums2
+        for(int i=a-1;i>=0;i--){//dp[i][j] denotes max length of string starting at index i to end of nums1 and similarly for nums2
             for(int j=b-1;j>=0;j--){
 
                 if(nums1[i] == nums2[j])
