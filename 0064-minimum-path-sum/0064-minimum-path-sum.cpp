@@ -1,44 +1,33 @@
 class Solution {
 public:
-
-    int solve(vector<vector<int>>& grid, int i, int j){
+    int minPathSum(vector<vector<int>>& grid) {
+        
+        int dp[201][201];
 
         int m = grid.size(), n = grid[0].size();
-        
-        if(i<0 or j<0 or i>=m or j>=n)
-        return 1e9;
 
-        if(i == m-1 and j == n-1)
-        return grid[i][j];
+        dp[0][0] = grid[0][0];
 
-        return grid[i][j] + min(solve(grid,i+1,j),solve(grid,i,j+1));
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
 
-    }
+                if(i == 0 and j == 0)
+                continue;
 
-    int solvedp(vector<vector<int>>& grid){
+                dp[i][j] = 1e9;
 
-        int m = grid.size(), n = grid[0].size();
-        
-        vector<vector<int>> dp(m+1,vector<int>(n+1,1e9));
+                if(i-1>=0)
+                dp[i][j] = dp[i-1][j];
 
-        for(int i=m-1;i>=0;i--){
-            for(int j=n-1;j>=0;j--){
+                if(j-1>=0)
+                dp[i][j] = min(dp[i][j], dp[i][j-1]);
 
-                int p = min(dp[i+1][j],dp[i][j+1]);
-
-                if(p!=1e9)
-                dp[i][j] = grid[i][j] + p;
-
-                else 
-                dp[i][j] = grid[i][j];
+                dp[i][j]+=grid[i][j];
 
             }
         }
-        return dp[0][0];
-    }
 
-    int minPathSum(vector<vector<int>>& grid) {
-        // return solve(grid,0,0);
-        return solvedp(grid);
+        return dp[m-1][n-1];
+
     }
 };
