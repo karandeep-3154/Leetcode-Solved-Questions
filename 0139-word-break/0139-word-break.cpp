@@ -2,49 +2,31 @@ class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
         
-        int dp[305][305], n = s.size();
-
-        memset(dp, 0, sizeof(dp));
+        int dp[305]={0};
+        int n = s.size();
 
         set<string> dict;
         for(auto i : wordDict)
         dict.insert(i);
 
-        for(int i=0;i<n;i++){
+        dp[0] = 1;
 
-            if(dict.count(s.substr(i, 1)) > 0)
-            dp[i][i] = 1;
+        dp[1] = dict.count(s.substr(0,1)) > 0 ? 1 : 0;
 
-        }
-        
-        for(int gap=2;gap<=n;gap++){
+        for(int i=2;i<=n;i++){
 
-            for(int i=0;i<=n-gap;i++){
+            for(int j=i-1;j>=0;j--){
 
-                int j = i+gap-1;
-
-                if(dict.count(s.substr(i, j-i+1)) > 0){
-
-                    dp[i][j] = 1;
-                    continue;
-
+                if(dp[j] == 1 and dict.count(s.substr(j, i-j)) > 0){
+                    dp[i] = 1;
+                    break;
                 }
-
-                for(int k=i;k<=j;k++){
-
-                    if(dp[i][k] == 1 and (k == j or dict.count(s.substr(k+1, j-k)) > 0)){
-                        dp[i][j] = 1;
-                        break;
-                    }
-                }
-
-                //cout<<i<<"  "<<j<<"     "<<dp[i][j]<<endl;
 
             }
 
         }
 
-        return dp[0][n-1];
+        return dp[n];
 
     }
 };
