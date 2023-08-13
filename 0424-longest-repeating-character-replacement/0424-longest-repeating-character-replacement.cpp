@@ -1,27 +1,29 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        vector<int> counts(26, 0);
-        int start = 0;
-        int maxCharCount = 0;
-        int n = s.length();
-        int result = 0;
-        for(int end = 0; end < n; end++){
-            counts[s[end]-'A']++;
-            if(maxCharCount < counts[s[end]-'A']){
-                maxCharCount = counts[s[end]-'A'];
+        
+        vector<int> freq(26);
+        int mostFreqLetter = 0;
+        int left = 0;
+        int max = 0;
+        
+        for(int right = 0; right < s.length(); right++){
+
+            freq[s[right] - 'A']++;
+
+            if(freq[s[right] - 'A'] > mostFreqLetter)
+            mostFreqLetter = freq[s[right] - 'A'];
+            
+            int lettersToChange = (right - left + 1) - mostFreqLetter;
+            if(lettersToChange > k){
+                freq[s[left] - 'A']--;
+                left++;
             }
-            while(end-start-maxCharCount+1 > k){
-                counts[s[start]-'A']--;
-                start++;
-                for(int i = 0; i < 26; i++){
-                    if(maxCharCount < counts[i]){
-                        maxCharCount = counts[i];
-                    }
-                }
-            }
-            result = max(result, end-start+1);
+            
+            if(right-left+1>max)
+            max = right-left+1;
         }
-        return result;
+        
+        return max;
     }
 };
