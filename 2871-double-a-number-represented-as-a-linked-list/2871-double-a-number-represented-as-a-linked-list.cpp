@@ -11,48 +11,24 @@
 class Solution {
 public:
         
-ListNode* reverse(ListNode* head) {
-    ListNode* prev = nullptr;
-    ListNode* current = head;
-    while (current != nullptr) {
-        ListNode* nextNode = current->next;
-        current->next = prev;
-        prev = current;
-        current = nextNode;
-    }
-    return prev;
-}
-    ListNode* doubleIt(ListNode* head) {
-        
-    head = reverse(head);
+ ListNode* doubleIt(ListNode* head) {
 
-    ListNode* current = head;
-    ListNode* newHead = nullptr;
-    ListNode* newTail = nullptr;
-    int carry = 0;
+     //INTUTION IS SINCE WE ARE MULTIPLYING EACH DIGIT WITH 2 SO MAX CARRY WILL ALWAYS BE 1 AS 9*2=18 SO CARRY 1.
+    //  DRY RUN FOR EX - 245 TO GET GOOD UNDERSTANDING
 
-    while (current != nullptr) {
-        int newValue = current->val * 2 + carry;
-        carry = newValue / 10;
-        newValue %= 10;
+        if (head->val > 4)
+            head = new ListNode(0, head);
+            
+        for(ListNode* node = head; node; node = node->next) {
 
-        if (newHead == nullptr) {
-            newHead = new ListNode(newValue);
-            newTail = newHead;
-        } else {
-            newTail->next = new ListNode(newValue);
-            newTail = newTail->next;
+            node->val = (node->val * 2) % 10;
+
+            if (node->next && node->next->val > 4)
+                node->val++;
+                
         }
 
-        current = current->next;
-    }
+        return head;
 
-    while (carry > 0) {
-        newTail->next = new ListNode(carry % 10);
-        carry /= 10;
-        newTail = newTail->next;
-    }
-
-    return reverse(newHead);
     }
 };
