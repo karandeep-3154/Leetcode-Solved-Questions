@@ -1,7 +1,7 @@
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        int dp[21][2001]; // Since the maximum possible sum of nums can be 1000, the range of values for j is -1000 to 1000.
+        int dp[21][3002]; // Since the maximum possible sum of nums can be 1000, the range of values for j is -1000 to 1000.
         int n = nums.size();
         
         memset(dp, 0, sizeof(dp));
@@ -12,9 +12,9 @@ public:
                 if (j >= nums[i - 1]) {
                     dp[i][j] += dp[i - 1][j - nums[i - 1]];
                 }
-                if (j + nums[i - 1] <= 2000) {
+                // if (j + nums[i - 1] <= 2000) {
                     dp[i][j] += dp[i - 1][j + nums[i - 1]];
-                }
+                // }
             }
         }
         
