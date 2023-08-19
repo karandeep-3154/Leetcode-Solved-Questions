@@ -16,7 +16,6 @@ public:
 
             for(int j=1;j<=i;j++){
 
-                if(j>1)
                 dp[i][j] = min(dp[i][j], triangle[i-1][j-1] + dp[i-1][j-1]);
 
                 dp[i][j] = min(dp[i][j], triangle[i-1][j-1] + dp[i-1][j]);
