@@ -1,33 +1,12 @@
 class Solution {
 public:
 
-    bool check(string a, string b){
-
-        if(b.size()%a.size())
-        return false;
-
-        int p=b.size()/a.size();
-
-        string s="";
-
-        while(p--)
-        s+=a;
-
-        return s==b;
-
-    }
+    // The idea behind this approach is that if a string s can be constructed by repeating a substring, then concatenating two copies of s together and removing the first and last character would still contain s as a substring.
 
     bool repeatedSubstringPattern(string s) {
-
-        // if(s.size() <= 1)
-        // return true;
-        
-        for(int i=0;i<s.size()/2;i++){
-            if(check(s.substr(0,i+1),s))
-            return true;
-        }
-
-        return false;
-
+        string doubled = s + s;
+        string sub = doubled.substr(1, doubled.size() - 2);
+        return sub.find(s) != string::npos;
     }
+
 };
