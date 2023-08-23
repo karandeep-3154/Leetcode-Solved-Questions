@@ -1,53 +1,44 @@
 class Solution {
 public:
 
-// REFER - https://leetcode.com/problems/cherry-pickup/solutions/1912865/c-detailed-explanation-clear-intuitions-memoization-dp-good-question/
+    int dp[51][51][51];
 
-// //(r1==n-1 && c1==n-1) and (r2==n-1 && c2==n-1) will occur at the same time because r1+c1=r2+c2.
-// So you can write either of the following base cases as they all mean the same thing.
+    int f(vector<vector<int>>& grid, int i1, int j1, int i2, int n){
 
-// (r1==n-1 && c1==n-1)
-// (r2==n-1 && c2==n-1)
-// (r1==n-1 && c1==n-1) && (r2==n-1 && c2==n-1)
+        int j2 = i1+j1-i2;//as both persons will start from 0,0 and at each step both  move only 1 step ahead so distance of them from origin is equal
 
-     int dp[51][51][51];
-    int func(int r1 , int c1 , int r2 , int n , vector<vector<int>> &grid )
-    {
-        int c2=r1+c1-r2;
-        
-        if(r1>=n || r2>=n || c1>=n || c2>=n || grid[r1][c1]==-1 || grid[r2][c2]==-1)
-        {
-            return INT_MIN;
-        }
-        
-        if(dp[r1][c1][r2]!=-1)
-        {
-            return dp[r1][c1][r2];
-        }
-        
-        if(r1==n-1 && c1==n-1)
-        {
-            return grid[r1][c1];
-        }
-        
-        int ans=grid[r1][c1];
-        
-        if(r1!=r2)
-        {
-            ans += grid[r2][c2];
-        }
-        
-        int temp= max(func(r1+1 , c1 , r2+1 , n , grid) , func(r1 , c1+1 , r2 , n , grid));
-        temp = max(temp , func(r1+1 , c1 , r2 , n, grid));
-        temp = max(temp , func(r1 , c1+1 , r2+1 , n , grid));
-        
-        ans+=temp;
-        
-        return dp[r1][c1][r2]=ans;
+        if(i1>n-1 or j1>n-1 or j2>n-1 or i2>n-1 or grid[i1][j1] == -1 or grid[i2][j2] == -1)
+        return -1e6;
+
+        if(i1 == n-1 and j1 == n-1)//sum of i1, j1 = n-1+n-1 only possible when i2==n-1 and j2=-1 so no need to write for them also in this if condition
+        return grid[i1][j1];
+
+        if(dp[i1][j1][i2] != -1)
+        return dp[i1][j1][i2];
+
+        int curval = (i1 == i2 and j1 == j2) ? grid[i1][j1] : grid[i1][j1] + grid[i2][j2];
+
+        int nextval = f(grid, i1+1, j1, i2+1, n);//DD
+        nextval = max(nextval, f(grid, i1+1, j1, i2, n));//DR AS IF WE I1 GETS INCREMENTED AND WE DON'T INCREMENT I2 MEANS J2 IS AUTOMATICALLY INCREMENTED I.E j2(INCREMENT BY 1) = i1(INCREMENT BY 1)+j1-i2
+        nextval = max(nextval, f(grid, i1, j1+1, i2, n));//RR
+        nextval = max(nextval, f(grid, i1, j1+1, i2+1, n));//RD
+
+        if(nextval<0)
+        return dp[i1][j1][i2] = nextval;
+
+// cout<<i1<<" "<<j1<<"    "<<i2<<" "<<j2<<"    "<<curval+nextval<<endl;
+   
+        return dp[i1][j1][i2] = curval + nextval;
+
     }
+
     int cherryPickup(vector<vector<int>>& grid) {
-        memset(dp , -1 , sizeof(dp));
-        int n=grid.size();
-        return max(0 , func(0,0,0,n , grid));
+
+        memset(dp, -1, sizeof(dp));
+        
+        int p = f(grid, 0, 0, 0, grid.size());
+
+        return p<0 ? 0 : p;
+
     }
 };
