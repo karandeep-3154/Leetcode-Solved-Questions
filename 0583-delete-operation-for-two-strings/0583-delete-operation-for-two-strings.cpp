@@ -2,33 +2,25 @@ class Solution {
 public:
     int minDistance(string a, string b) {
         
+        int m = a.size(), n = b.size();
+
         int dp[501][501];
 
-        dp[0][0] = 0;
+        memset(dp, 0, sizeof(dp));
 
-        for(int i=0;i<=a.size();i++){
-            for(int j=0;j<=b.size();j++){
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
 
-                if(i == 0)
-                dp[i][j] = j;
+                if(a[i-1] == b[j-1])
+                dp[i][j] = 1 + dp[i-1][j-1];
 
-                else if(j == 0)
-                dp[i][j] = i;
-
-                else{
-
-                    if(a[i-1] == b[j-1])
-                    dp[i][j] = dp[i-1][j-1];
-
-                    else
-                    dp[i][j] = min(dp[i][j-1], dp[i-1][j]) + 1;
-
-                }
+                else
+                dp[i][j] = max(dp[i][j-1], dp[i-1][j]);
 
             }
         }
 
-        return dp[a.size()][b.size()];
+        return m+n-2*dp[m][n];
 
     }
 };
