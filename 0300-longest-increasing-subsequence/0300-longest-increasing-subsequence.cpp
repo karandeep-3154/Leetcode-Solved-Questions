@@ -1,24 +1,27 @@
 class Solution {
 public:
   
-    int lengthOfLIS(vector<int>& a) {
-    int n = a.size();
-    const int INF = 1e9;
-    vector<int> d(n+1, INF);
-    d[0] = -INF;
+    int lengthOfLIS(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> dp(n+1, 1);
 
-    for (int i = 0; i < n; i++) {
-        int l = upper_bound(d.begin(), d.end(), a[i]) - d.begin();
-        if (d[l-1] < a[i] && a[i] < d[l])
-            d[l] = a[i];
-    }
+		dp[0]=0;
 
-    int ans = 0;
-    for (int l = 0; l <= n; l++) {
-        if (d[l] < INF)
-            ans = l;
-    }
-    return ans;
+		int ans = 1;
+
+		for(int i=2;i<=n;i++){
+			for(int j=i-1;j>0;j--){
+				
+				if(arr[j-1]<arr[i-1])
+				dp[i] = max(dp[i], 1 + dp[j]);
+				
+			}
+
+			ans = max(ans, dp[i]);
+
+		}
+
+		return ans;
 
     }
 };
