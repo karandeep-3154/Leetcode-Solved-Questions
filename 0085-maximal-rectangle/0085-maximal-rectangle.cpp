@@ -37,7 +37,12 @@ public:
                 for(int k=0;k<m;k++)
                 prefix[k]+=matrix[k][j]-(int)'0';
 
-                ans = max(ans, findmax(prefix, j-i+1)*(j-i+1));
+                int height = findmax(prefix, j-i+1);
+
+                if(height == 0)
+                break;
+
+                ans = max(ans, height*(j-i+1));
 
             }
         }
