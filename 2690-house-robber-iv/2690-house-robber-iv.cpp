@@ -25,7 +25,7 @@ public:
         while (low <= high) {
             int mid = low + (high-low)/2;
             if (helper(nums, k, mid)) {
-                ans = min(ans, mid);
+                ans =mid;
                 high = mid-1;
             }
             else {
