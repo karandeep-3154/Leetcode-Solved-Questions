@@ -1,19 +1,32 @@
-// We use an extra array in which we place every element of the array at its correct
-// position i.e. the number at index iii in the original array is placed at the
-// index (i+k)% length of array(i + k) \% \text{ length of array}(i+k)% length of array.
+// The idea is to move each num[i] k steps forward until it wraps around, then repeat that for the indices not yet covered.
+
+// For example, when the array size is 9 and k is 3:
+
+// Move index 0 -> 3 -> 6 (index 6 wraps back to 0 so we stop)
+// Move index 1 -> 4 -> 7
+// Move index 2 -> 5 -> 8
+// When array size is 10 and k is 3:
+
+// Move index 0 -> 3 -> 6 -> 9 -> 2 -> 5 -> 8 -> 1 -> 4 -> 7 (7 wraps back to 0)
+
+// Every index is visited exactly once, so the time is O(n).
 
 class Solution {
 public:
-    void rotate(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> a(n);
-        
-        for (int i = 0; i < n; i++) {
-            a[(i + k) % n] = nums[i];
-        }
-        
-        for (int i = 0; i < n; i++) {
-            nums[i] = a[i];
+    void rotate(std::vector<int>& nums, int k) {
+        k = k % nums.size();
+        int count = 0;
+        for (int start = 0; count < nums.size(); start++) {
+            int current = start;
+            int prev = nums[start];
+            do {
+                int next = (current + k) % nums.size();
+                int temp = nums[next];
+                nums[next] = prev;
+                prev = temp;
+                current = next;
+                count++;
+            } while (start != current);
         }
     }
 };
