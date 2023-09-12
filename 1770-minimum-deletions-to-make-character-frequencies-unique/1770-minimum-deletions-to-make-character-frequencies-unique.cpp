@@ -1,31 +1,39 @@
 class Solution {
 public:
-    int minDeletions(string s) {
-        vector<int> v(26,0);
-        int l=s.size();
-        for(int i=0;i<l;i++){
-            v[int(s[i])-97]+=1;
-        }
-        int maxx=0;
+    int minDeletions(string ss) {
+        
+        map<int, int> a;
+        set<int> s;
 
-        for(int i=0;i<26;i++){
-            maxx=max(maxx,v[i]);
-        }
-        vector<int> ar(maxx+1,0);
-        for(int i=0;i<26;i++){
-            ar[v[i]]+=v[i]>0?1:0;
-        }
-        int count=0;
-        for(int i=maxx;i>=1;i--){
-            
-            if(ar[i]>1){
-                count+=ar[i]-1;
-                ar[i-1]+=ar[i]-1;
-                ar[i]=1;
+        for(auto i : ss)
+        a[i]++;
+
+        int cnt=0;
+
+        for(auto i : a){
+
+            if(s.count(i.second) == 0)
+            s.insert(i.second);
+
+            else{
+
+                int val = i.second;
+
+               while(s.count(val) and val>0){
+
+                   cnt++;
+                   val--;
+
+               }
+
+               if(val>0 and s.count(val)==0)
+               s.insert(val); 
+
             }
-            
-        }    
-        return count;                                                        
-            
+
+        }
+
+        return cnt;
+
     }
 };
