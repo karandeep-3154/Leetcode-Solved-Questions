@@ -17,10 +17,24 @@ public:
         if(root == NULL)
         return;
 
-        ans.push_back(root->val);
+        stack<TreeNode*> s;
 
-        preorder(root->left, ans);
-        preorder(root->right, ans);
+        s.push(root);
+
+        while(s.size()){
+
+            auto top = s.top();
+            s.pop();
+
+            ans.push_back(top->val);
+
+            if(top->right)
+            s.push(top->right);
+
+            if(top->left)
+            s.push(top->left);
+
+        }
 
     }
 
