@@ -1,50 +1,51 @@
 class Solution {
 public:
+
+//REFER https://www.youtube.com/watch?v=F9c7LpRZWVQ
+
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         
-        int n1=nums1.size(), n2=nums2.size();
+        int a=nums1.size(), b=nums2.size();
+        
+        if(a>b)
+        return findMedianSortedArrays(nums2, nums1);//Doing BS on shorter search space to reduce time complexity
 
-        if(n2<n1)
-        return findMedianSortedArrays(nums2, nums1);
+        int total = a+b, left = total/2;
 
-        int left_cnt = (n1+n2+1)/2;
+        int l = 0, h=a;
 
-        int low=0, high=min(left_cnt, n1);
+        while(l<=h){
 
-        while(low<=high){
+            int mid = (l+h)/2;
 
-            int mid1 = (low+high)/2;
-            int mid2 = left_cnt-mid1;
+            if(mid>left)
+            h = mid-1;
 
-            int l1=-1e9, l2=-1e9, r1=1e9, r2=1e9;
+            int req = left-mid;
 
-            if(mid1-1>=0)
-            l1=nums1[mid1-1];
+            int a1 = mid==0?INT_MIN : nums1[mid-1];
+            int a2 = req==0?INT_MIN : nums2[req-1];
 
-            if(mid2-1>=0)
-            l2=nums2[mid2-1];
+            int b1 = mid==a?1e9 : nums1[mid];
+            int b2 = req==b?1e9 : nums2[req];
 
-            if(mid1<n1)
-            r1=nums1[mid1];
+            int maxi = max(a1, a2), mini = min(b1, b2);
 
-            if(mid2<n2)
-            r2=nums2[mid2];
+            if(maxi<=mini){
 
-            if(l1<=r2 and l2<=r1){
-
-                if((n1+n2)%2==0)
-                return (double)(max(l1,l2) + min(r1,r2))/(2.0);
+                if(total%2 == 0)
+                return (maxi+mini)/2.0;
 
                 else
-                return max(l1,l2);
+                return mini;
 
             }
 
-            else if(l1>r2)
-            high = mid1-1;
+            else if(a1>b2)
+            h=mid-1;
 
             else
-            low = mid1+1;
+            l=mid+1;
 
         }
 
