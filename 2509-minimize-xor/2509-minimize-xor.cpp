@@ -23,7 +23,7 @@ public:
 
         for(int i=0;i<=30;i++){
 
-            if((ans & (1<<i)) == 0){
+            if((num1 & (1<<i)) == 0){
 
                 ans|=(1<<i);
                 cnt--;
