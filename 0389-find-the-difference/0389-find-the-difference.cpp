@@ -2,17 +2,20 @@ class Solution {
 public:
     char findTheDifference(string s, string t) {
         
-        sort(s.begin(), s.end());
-        sort(t.begin(), t.end());
+        int a[26]={0};
+        int b[26]={0};
 
-        if(s=="")
-        return t[0];
+        for(auto i : s)
+        a[i-'a']++;
 
-        for(int i=0;i<s.size();i++)
-        if(s[i]!=t[i])
-        return t[i];
+        for(auto i : t)
+        b[i-'a']++;
 
-        return t[t.size()-1];
+        for(int i=0;i<26;i++)
+        if(a[i]<b[i])
+        return i+'a';
+
+        return ' ';
 
     }
 };
