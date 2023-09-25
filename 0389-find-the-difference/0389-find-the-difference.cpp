@@ -2,20 +2,15 @@ class Solution {
 public:
     char findTheDifference(string s, string t) {
         
-        int a[26]={0};
-        int b[26]={0};
+        int s1=0, s2=0;
 
         for(auto i : s)
-        a[i-'a']++;
+        s1+=(int)i;
 
         for(auto i : t)
-        b[i-'a']++;
+        s2+=(int)i;
 
-        for(int i=0;i<26;i++)
-        if(a[i]<b[i])
-        return i+'a';
-
-        return ' ';
+        return char(s2-s1);
 
     }
 };
