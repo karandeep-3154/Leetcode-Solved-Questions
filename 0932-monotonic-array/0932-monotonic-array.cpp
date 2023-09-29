@@ -1,33 +1,20 @@
 class Solution {
 public:
+    bool isMonotonic(std::vector<int>& nums) {
+        if (nums.size() < 2) return true;
 
-    bool inc(vector<int> &nums){
+        int direction = 0;  // 0 means unknown, 1 means increasing, -1 means decreasing
 
-        int n = nums.size();
-
-        for(int i=0;i<n-1;i++)
-        if(nums[i]>nums[i+1])
-        return false;
-
-        return true;
-
-    }
-
-    bool dec(vector<int> &nums){
-
-        int n = nums.size();
-
-        for(int i=0;i<n-1;i++)
-        if(nums[i]<nums[i+1])
-        return false;
+        for (size_t i = 1; i < nums.size(); i++) {
+            if (nums[i] > nums[i-1]) {  // increasing
+                if (direction == 0) direction = 1;
+                else if (direction == -1) return false;
+            } else if (nums[i] < nums[i-1]) {  // decreasing
+                if (direction == 0) direction = -1;
+                else if (direction == 1) return false;
+            }
+        }
 
         return true;
-
-    }
-
-    bool isMonotonic(vector<int>& nums) {
-        
-        return inc(nums) or dec(nums);
-
     }
 };
