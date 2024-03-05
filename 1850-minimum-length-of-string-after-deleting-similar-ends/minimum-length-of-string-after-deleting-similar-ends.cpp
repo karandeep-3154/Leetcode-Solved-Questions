@@ -7,7 +7,7 @@ public:
 
         while(i<j){
 
-            cout<<i<<" j is "<<j<<endl;
+            // cout<<i<<" j is "<<j<<endl;
 
             if(first!=last)
             return j-i+1;
