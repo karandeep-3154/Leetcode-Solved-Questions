@@ -28,11 +28,7 @@ public:
 
             if(i == -1 or j==-1){//for string when all chars are same 
 
-                if((jj-ii+1)%2 == 0)
-                return 1;
-
-                else
-                return 0;
+               return 0;
                 
             }
 
