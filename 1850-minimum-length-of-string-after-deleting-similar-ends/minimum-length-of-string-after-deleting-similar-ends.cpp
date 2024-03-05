@@ -26,7 +26,7 @@ public:
             if(j!=-1)
             last = s[j];
 
-            if(i == -1 or j==-1){//for string when all chars are same 
+            if(i == -1 or j==-1){//for string when all chars are same otherwise they will never be -1. Do Dry run for s = bbbbb
 
                return 0;
                 
