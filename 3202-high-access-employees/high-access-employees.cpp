@@ -1,66 +1,46 @@
 class Solution {
 public:
-
-    pair<int, int> getTime(string s){
-
-        int hr = stoi(s.substr(0, 2));
-        int min = stoi(s.substr(2, 2));
-
-        return {hr, min};
-
-    }
-
-    vector<string> findHighAccessEmployees(vector<vector<string>>& access_times) {
+    
+    int string_to_int(string s){
+        int val=0;
+        for(int i=0;i<s.length();i++) val = val*10 + (s[i]-'0');
         
-        map<string, vector<string>> mp;
-
-        for(auto i : access_times)
-        mp[i[0]].push_back(i[1]);
-
+        return val;
+    }
+    
+    vector<string> findHighAccessEmployees(vector<vector<string>>& access_times) {
+		map<string, vector<int>> times;
+        for(vector<string> v : access_times){
+            string s=v[1];
+            
+            int minutes = string_to_int(s.substr(0,2))*60 + string_to_int(s.substr(2));
+            times[v[0]].push_back(minutes);
+        }
+        
         vector<string> ans;
-
-        for(auto i : mp){
-
-            string emp = i.first;
-            sort(i.second.begin(), i.second.end());
-
-            vector<string> timings = i.second;
-
-            if(timings.size()<3)
-            continue;
-
-            int a=0;
-            // while(getTime(timings[a]).first == 0)
-            // a++;
-
-            int b = a+2;
-
-            while(b<timings.size()){
-
-                // if(getTime(timings[b]).first == 23)
-                // break;
-
-                auto [hr1, min1] = getTime(timings[a]);
-                auto [hr2, min2] = getTime(timings[b]);
-
-                if(hr1 == hr2 and min2-min1<60){
-                    ans.push_back(emp);
+        for(auto it=times.begin();it!=times.end();it++){
+            string ch = it->first;
+            vector<int> time = it->second;
+            
+            vector<int> sweep(1441,0);
+            for(int t : time){
+				// contribution of each access for next 59 minutes
+                sweep[t]++;
+                if(t+60 < 1441) sweep[t+60]--;
+            }
+            
+			// check for at least 3 overlapping access times
+            int c=0;
+            for(int i=0;i<1441;i++){
+                c += sweep[i];
+                
+                if(c>=3){
+                    ans.push_back(ch);
                     break;
                 }
-
-                else if(hr2-hr1 == 1 and 60-min1 + min2<60){
-                    ans.push_back(emp);
-                    break;
-                }
-
-                a++;
-                b++;
-
-            }            
-
+            }
         }
         
         return ans;
-
     }
 };
