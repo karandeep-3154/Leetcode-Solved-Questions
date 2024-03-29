@@ -1,29 +1,28 @@
 class Solution {
-    int i,j;
     int m,n;
+    set<pair<int,int>>s;
 public:
     Solution(int m, int n) {
-        i = 0;
-        j = 0;
         this -> m = m;
         this -> n = n;
+        s.clear();
     }
     
     vector<int> flip() {
-        vector<int> ans =  {i,j};
-        j = (j + 1);
-        if(j == n){
-            j = 0;
-            i += 1;
-            if(i == m){
-                i = 0;
-            }
+        int r = rand()%m;
+        int c = rand()%n;
+
+        while(s.count({r,c}) > 0){
+            r = rand()%m;
+            c = rand()%n;
         }
-        return ans;
+
+        s.insert({r,c});
+        return {r,c};
     }
     
     void reset() {
-        
+        s.clear();
     }
 };
 
