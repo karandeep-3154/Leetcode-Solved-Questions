@@ -16,8 +16,8 @@ public:
             cnt = 0;
             return false;
         }
-cout<<"Cnt is "<<cnt<<endl;
-        if(cnt == k-1)
+// cout<<"Cnt is "<<cnt<<endl;
+        if(cnt == k-1)//Represents current + k-1 prev characters are all equal to v
         return true;
 
         cnt++;
