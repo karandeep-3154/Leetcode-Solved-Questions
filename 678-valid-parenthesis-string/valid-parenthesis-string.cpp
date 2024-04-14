@@ -4,24 +4,22 @@ public:
 
     bool checkValidString(string s) {
         
-        int open=0, close=0;
+        int open=0, close=0, n=s.size();
 
-        for(auto i : s){
+        for(int i=0;i<n;i++){
 
-            if(i == '(' or i == '*')
+            if(s[i] == '(' or s[i] == '*')
             open++;
 
             else
             open--;
 
-            if(open == -1)
-            return false;
+            if(open == -1){cout<<"pehla de rha hai false";
+            return false;}
 
-        }
+            int j = n-1-i;
 
-        for(int i=s.size()-1;i>=0;i--){            
-
-            if(s[i] == ')' or s[i] == '*')
+            if(s[j] == ')' or s[j] == '*')
             close++;
 
             else
