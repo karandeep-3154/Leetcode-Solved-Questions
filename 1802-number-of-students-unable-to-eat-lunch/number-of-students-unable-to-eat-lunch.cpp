@@ -1,36 +1,36 @@
 class Solution {
 public:
     int countStudents(vector<int>& students, vector<int>& sandwiches) {
-        
-        int cnt0 = 0, cnt1 = 0, k=0, shifts=0;
-        queue<int> q;
-        
-        for(int i=0;i<students.size();i++)
-            q.push(students[i]);
-                
-        while(q.size() and shifts < q.size()){
+        int circleStudentCount = 0;
+        int squareStudentCount = 0;
 
-            if(q.front() == sandwiches[k]){
-                
-                q.pop();
-                k++;
-                shifts = 0;
-
+        // Count the number of students who want each type of sandwich
+        for (int student : students) {
+            if (student == 0) {
+                circleStudentCount++;
+            } else {
+                squareStudentCount++;
             }
-
-            else{
-                
-                int ele = q.front();
-                q.pop();
-                q.push(ele);
-                shifts++;
-            
-            }
-
-
         }
 
-        return q.size();
-
+        // Serve sandwiches to students
+        for (int sandwich : sandwiches) {
+            // No student wants the circle sandwich on top of the stack
+            if (sandwich == 0 && circleStudentCount == 0) {
+                return squareStudentCount;
+            } 
+            // No student wants the square sandwich on top of the stack
+            if (sandwich == 1 && squareStudentCount == 0) {
+                return circleStudentCount;
+            }
+            // Decrement the count of the served sandwich type
+            if (sandwich == 0) {
+                circleStudentCount--;
+            } else {
+                squareStudentCount--;
+            }
+        }
+        // Every student received a sandwich
+        return 0;
     }
 };
