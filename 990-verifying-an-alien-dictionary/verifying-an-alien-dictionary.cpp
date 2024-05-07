@@ -2,17 +2,11 @@ class Solution {
 public:
     bool isAlienSorted(vector<string>& words, string order) {
         
-        map<char, set<char>> mp;
+        map<char, int> mp;
 
-        set<char> s;
+        for(int i=0;i<order.size();i++)
+        mp[order[i]] = i;
 
-        for(auto i : order){
-
-            mp[i] = s;
-            s.insert(i);
-
-        }
-        
         for(int i=1;i<words.size();i++){
 
             string prev = words[i-1], cur = words[i];
@@ -24,7 +18,7 @@ public:
                 continue;
 
                 flag = true;
-                if(mp[cur[j]].count(prev[j]) == 0)
+                if(mp[cur[j]] < mp[prev[j]])
                 return false;
 
                 break;
