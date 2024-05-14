@@ -8,12 +8,6 @@ public:
 
         vis[i][j] = 1;
 
-        // int a[] = {0, -1, 0, 1}, b[] = {-1, 0, 1, 0};
-
-        // for(int k=0;k<4;k++){
-        //     if(vis[])
-        // }
-
         int ans = grid[i][j] + max({dfs(i, j-1, vis, m, n, grid), dfs(i-1, j, vis, m, n, grid), dfs(i, j+1, vis, m, n, grid), dfs(i+1, j, vis, m, n, grid)});
 
         vis[i][j] = 0;
