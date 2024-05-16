@@ -10,12 +10,16 @@ public:
         while(low <= high){
 
             int mid = (low + high)/2;
-            int cnt = 0;
+            int cnt = 0, j = n-1;
 
-            for(int i=0;i<m;i++)
-            cnt += (lower_bound(matrix[i].begin(), matrix[i].end(), mid) - matrix[i].begin());
+            for(int i=0;i<m;i++){
 
-            // cout<<" mid is "<<mid<<" cnt is "<<cnt<<endl;
+                while(j>=0 and matrix[i][j] >= mid)
+                j--;
+
+                cnt = cnt + j + 1;
+
+            }//O(N + N)
 
             if(cnt > k-1)
             high = mid - 1;
