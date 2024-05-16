@@ -1,43 +1,42 @@
 class Solution {
 public:
 
-using p = pair<int, pair<int, int>>;
-
-class Compare {
-    public:
-       bool operator()(p a, p b){
-           
-           return a.first>b.first;
-           
-      }
-};
-
-
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        
-        priority_queue<p, vector<p>, Compare> pq;
-        int cnt = 1;
 
         int m = matrix.size(), n = matrix[0].size();
 
-        for(int i=0;i<m;i++)
-        pq.push({matrix[i][0], {i, 0}});
+        int low = matrix[0][0], high = matrix[m-1][n-1], ans = low;//if it was a linear sorted array, we could have taken low as 0 and high as n-1 index
 
-        while(cnt<k){
+        while(low <= high){
 
-            auto top = pq.top();
-            int val = top.first, i = top.second.first, j = top.second.second;
-            // cout<<val<<endl;
-            pq.pop();
+            int mid = (low + high)/2;
+            int cnt = 0;
 
-            if(j+1<matrix[i].size())
-            pq.push({matrix[i][j+1], {i, j+1}});
+            for(int i=0;i<m;i++)
+            cnt += (lower_bound(matrix[i].begin(), matrix[i].end(), mid) - matrix[i].begin());
 
-            cnt++;
+            // cout<<" mid is "<<mid<<" cnt is "<<cnt<<endl;
+
+            if(cnt > k-1)
+            high = mid - 1;
+
+            else{
+
+                ans = mid;
+/*Doing this as here it is TTTTFFF but here for some values although we are getting T, but they might not be present in actual, so doing ans = mid as it will ensure to find that element which really exists.
+
+Do the dry run for k = 3 for 
+matrix =
+[[1,3],[2,5]] and 
+matrix =
+[[1,4],[2,5]]
+*/
+                low = mid + 1;
+            }
 
         }
 
-        return pq.top().first;
+        return ans;
 
     }
 };
