@@ -1,25 +1,41 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     bool evaluateTree(TreeNode* root) {
-        
-        if(!root->left and !root->right)
-        return root->val == 1;
+        stack<TreeNode*> st;
+        st.push(root);
+        unordered_map<TreeNode*, bool> evaluated;
 
-        if(root->val == 2)
-        return evaluateTree(root->left) | evaluateTree(root->right);
+        while (!st.empty()) {
+            TreeNode* topNode = st.top();
 
-        return evaluateTree(root->left) & evaluateTree(root->right);
+            // If the node is a leaf node, store its value in the evaluated
+            // hashmap and continue
+            if (!topNode->left and !topNode->right) {
+                st.pop();
+                evaluated[topNode] = topNode->val;
+                continue;
+            }
 
+            // If both the children have already been evaluated, use their
+            // values to evaluate the current node.
+            if (evaluated.find(topNode->left) != evaluated.end() and
+                evaluated.find(topNode->right) != evaluated.end()) {
+                st.pop();
+                if (topNode->val == 2) {
+                    evaluated[topNode] =
+                        evaluated[topNode->left] || evaluated[topNode->right];
+                } else {
+                    evaluated[topNode] =
+                        evaluated[topNode->left] && evaluated[topNode->right];
+                }
+            } else {
+                // If both the children are not leaf nodes, push the current
+                // node along with its left and right child back into the stack.
+                st.push(topNode->right);
+                st.push(topNode->left);
+            }
+        }
+
+        return evaluated[root] == 1;
     }
 };
