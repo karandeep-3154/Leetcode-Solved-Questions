@@ -15,7 +15,8 @@ public:
             if(cnt0<=k){
             
                 ans = max(ans, cnt1+cnt0);
-                j++;continue;
+                j++;
+                continue;
             
             }
 
