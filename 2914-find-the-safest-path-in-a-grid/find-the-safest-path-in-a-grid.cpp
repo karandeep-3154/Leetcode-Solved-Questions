@@ -73,7 +73,7 @@ public:
 
                     viis[newr][newc] = 1;
                     pp.push({min(distance[newr][newc], dis), {newr, newc}});
-
+//Doing min as we need to keep track of min dis at any node in our current journey
                 }
 
             }
