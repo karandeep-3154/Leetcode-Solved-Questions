@@ -1,26 +1,37 @@
 class Solution {
-public:
-    int specialArray(vector<int>& nums) {
-        
-        for(int i=0;i<=*(max_element(nums.begin(), nums.end()));i++){
+    
+    int getFirstGreaterOrEqual(vector<int>& nums, int val) {
+        int start = 0;
+        int end = nums.size() - 1;
 
-            int cnt = 0;
-            for(auto j : nums){
+        int index = nums.size();
+        while (start <= end) {
+            int mid = (start + end) / 2;
 
-                if(j>=i)
-                cnt++;
-
-                if(cnt>i)
-                break;
-
+            if (nums[mid] >= val) {
+                index = mid;
+                end = mid - 1;
+            } else {
+                start = mid + 1;
             }
-
-            if(cnt == i)
-            return i;
-
         }
 
+        return index;
+    }
+    
+public:
+    int specialArray(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        
+        int N = nums.size();
+        for (int i = 1; i <= N; i++) {
+            int k = getFirstGreaterOrEqual(nums, i);
+            
+            if (N - k == i) {
+                return i;
+            }
+        }
+        
         return -1;
-
     }
 };
