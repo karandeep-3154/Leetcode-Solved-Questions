@@ -2,7 +2,7 @@ class Solution {
 public:
 int mod = 1e9+7;
 using ll = long long;
-
+// Refer https://youtu.be/kx5t-A2kTDk?si=FyZseR2OBxpkz3yi
 ll dp[100001][3][2];
 
     ll calculate(int n, int cl, int ta){//consecutive late, total absent
