@@ -6,6 +6,8 @@ public:
         
         int dp[500][26], ans=1;
 
+        //dp[i][j] denotes best possible ans if ith index element is taken and j adjacent different elements of subsequence allowed
+
         memset(dp, 0, sizeof(dp));
 
         int n = nums.size();
